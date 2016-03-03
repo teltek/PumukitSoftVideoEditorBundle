@@ -3,7 +3,7 @@
 Bundle based on [Symfony](http://symfony.com/) to work with the [PuMuKIT2 Video Platform](https://github.com/campusdomar/PuMuKIT2/blob/2.1.x/README.md).
 
 This bundle adds a soft-editing video editor for Multimedia Objects. If installed, there will be a new tag on the multimedia objects back-office to add breaks, chapter marks or set a trimming to a multimedia object.
-This bundle requires having installed the [Paella Player Bundle](https://github.com/teltek/PuMuKIT2-paella-player-bundle) 
+This bundle requires having installed the [Paella Player Bundle](https://github.com/teltek/PuMuKIT2-paella-player-bundle)
 
 ## Installation
 
@@ -11,6 +11,7 @@ Step 1 requires you to have Composer installed globally, as explained
 in the [installation chapter](https://getcomposer.org/doc/00-intro.md)
 of the Composer documentation.
 
+Installing this bundle requires the **previous installation** of the [Paella Player Bundle](https://github.com/teltek/PuMuKIT2-paella-player-bundle)
 
 ### Step 1: Download the Bundle
 
