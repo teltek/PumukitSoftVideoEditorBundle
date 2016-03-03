@@ -2,6 +2,8 @@
 
 Bundle based on [Symfony](http://symfony.com/) to work with the [PuMuKIT2 Video Platform](https://github.com/campusdomar/PuMuKIT2/blob/2.1.x/README.md).
 
+![video editor](Resources/video_doc.jpg)
+
 This bundle adds a soft-editing video editor for Multimedia Objects. If installed, there will be a new tag on the multimedia objects back-office to add breaks, chapter marks or set a trimming to a multimedia object.
 This bundle requires having installed the [Paella Player Bundle](https://github.com/teltek/PuMuKIT2-paella-player-bundle)
 
