@@ -87,7 +87,8 @@ class AnnotationsListenerService
                 $temp = $brk;
             }
         }
-        $allBreaks[] = $temp;
+        if(isset($temp))
+            $allBreaks[] = $temp;
 
         return $allBreaks;
     }
