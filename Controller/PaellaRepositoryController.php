@@ -124,6 +124,10 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
      * Returns a frameList formatted to be added to the paella
      */
     private function getOpencastFrameList($mmobj) {
+        //If there is no opencast client this won't work
+        if(!$this->has('pumukit_opencast.client'))
+            return array();
+
         $opencastClient = $this->get('pumukit_opencast.client');
         $images = array();
         //Only works if the video is an opencast video
