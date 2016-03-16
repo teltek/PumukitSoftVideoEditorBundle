@@ -30,7 +30,7 @@ var MyVideoLoader = Class.create(paella.DefaultVideoLoader, {
     loadVideo:function(videoId,onSuccess) {
         if (videoId) {
             that = this;
-            $.get('/videoeditor/paellarepository/' + videoId)
+            $.get('/admin/videoeditor/paellarepository/' + videoId)
                 .done(function(data){
                     var This = that;
                     if (data.streams) {
