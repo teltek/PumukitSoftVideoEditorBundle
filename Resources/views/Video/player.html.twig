@@ -16,5 +16,14 @@
  }
 </style>
 <script>
+ {% if multimediaObject.getProperty('opencastinvert') %}
+ setTimeout(function(){
+     paella.events.trigger(paella.events.setProfile, {profileName: "slide_professor"});
+ }, 300);
+ {% else %}
+ setTimeout(function(){
+     paella.events.trigger(paella.events.setProfile, {profileName: "professor_slide"});
+ }, 300);
+ {% endif %}
  loadPaella('playerContainer', '{{multimediaObject.id}}');
 </script>
