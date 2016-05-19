@@ -40,9 +40,14 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
             $src = $this->getAbsoluteUrl($request, $track->getUrl());
             $mimeType = $track->getMimetype();
             $dataStream = array('sources' => array('mp4' => array(array('src' => $src,
-                                                                               'mimetype' => $mimeType,
-                                                                               'res' => array('w' => 0, 'h' => 0)))),
-                                       'preview' => $pic);
+                                                                        'mimetype' => $mimeType))),
+                                'preview' => $pic);
+
+            // If pumukit doesn't know the resolution, paella can guess it.
+            if ($track->getWidth() && $track->getHeight()) {
+                $dataStream['sources']['mp4'][0]['res'] = array('w' => $track->getWidth(), 'h' => $track->getHeight());
+            }
+
             $data['streams'][] = $dataStream;
         }
         if(isset($tracks['presentation'])) {
@@ -50,9 +55,14 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
             $src = $this->getAbsoluteUrl($request, $track->getUrl());
             $mimeType = $track->getMimetype();
             $dataStream = array('sources' => array('mp4' => array(array('src' => $src,
-                                                                               'mimetype' => $mimeType,
-                                                                               'res' => array('w' => 0, 'h' => 0)))),
+                                                                        'mimetype' => $mimeType))),
             );
+
+            // If pumukit doesn't know the resolution, paella can guess it.
+            if ($track->getWidth() && $track->getHeight()) {
+                $dataStream['sources']['mp4'][0]['res'] = array('w' => $track->getWidth(), 'h' => $track->getHeight());
+            }
+
             $data['streams'][] = $dataStream;
         }
 
