@@ -22,7 +22,7 @@
         "php": ">=5.5.9",
         "symfony/framework-bundle": "~2.0",
         "twig/twig": "~1.5",
-        "pumukit/pumukit2": "2.2.*",
+        "pumukit/pumukit2": ">=2.2",
         "teltek/pmk2-paella-player-bundle": "1.0.*"
     },
     "autoload": {
