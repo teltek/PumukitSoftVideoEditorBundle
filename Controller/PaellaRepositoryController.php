@@ -99,18 +99,19 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
     private function getMmobjTracks(MultimediaObject $mmobj)
     {
         $tracks = array();
+        $availableCodecs = array('h264','vp8', 'vp9')
         if($mmobj->getProperty('opencast')) {
             $presenterTracks = $mmobj->getFilteredTracksWithTags(array('presenter/delivery'));
             $presentationTracks = $mmobj->getFilteredTracksWithTags(array('presentation/delivery'));
 
             foreach($presenterTracks as $track) {
-                if($track->getVcodec() == 'h264') {
+                if(in_array($track->getVcodec(), $availableCodecs)) {
                     $tracks['display'] = $track;
                     break;
                 }
             }
             foreach($presentationTracks as $track) {
-                if($track->getVcodec() == 'h264') {
+                if(in_array($track->getVcodec(), $availableCodecs)) {
                     $tracks['presentation'] = $track;
                     break;
                 }
@@ -154,7 +155,7 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
                     //Getting time by parsing hours, minutes and second of a string of this type ->  time=T12:12:12:0F1000
                     preg_match('/time\=T(.*?):(.*?):(.*?):;*/',$attachmnt['ref'], $result);
                     $time = $result[1]*3600 + $result[2]*60 + $result[3];
-                    
+
                     $images[] = array('id' =>'frame_'.$time,
                                       'mimetype' => $attachmnt['mimetype'],
                                       'time' => $time,
