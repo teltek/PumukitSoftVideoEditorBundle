@@ -99,7 +99,7 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
     private function getMmobjTracks(MultimediaObject $mmobj)
     {
         $tracks = array();
-        $availableCodecs = array('h264','vp8', 'vp9')
+        $availableCodecs = array('h264','vp8', 'vp9');
         if($mmobj->getProperty('opencast')) {
             $presenterTracks = $mmobj->getFilteredTracksWithTags(array('presenter/delivery'));
             $presentationTracks = $mmobj->getFilteredTracksWithTags(array('presentation/delivery'));
