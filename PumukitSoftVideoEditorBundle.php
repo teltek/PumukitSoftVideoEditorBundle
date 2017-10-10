@@ -1,12 +1,12 @@
 <?php
 
-namespace Pumukit\VideoEditorBundle;
+namespace Pumukit\SoftVideoEditorBundle;
 
-use Pumukit\VideoEditorBundle\DependencyInjection\Compiler\OverrideServiceCompilerPass;
+use Pumukit\SoftVideoEditorBundle\DependencyInjection\Compiler\OverrideServiceCompilerPass;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class PumukitVideoEditorBundle extends Bundle
+class PumukitSoftVideoEditorBundle extends Bundle
 {
     public function build(ContainerBuilder $container)
     {

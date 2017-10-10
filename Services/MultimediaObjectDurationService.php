@@ -1,6 +1,6 @@
 <?php
 
-namespace Pumukit\VideoEditorBundle\Services;
+namespace Pumukit\SoftVideoEditorBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Pumukit\SchemaBundle\Document\MultimediaObject;
@@ -18,9 +18,10 @@ class MultimediaObjectDurationService
 
     public function getMmobjDuration(MultimediaObject $mmobj)
     {
-        if($duration = $mmobj->getProperty('soft-editing-duration'))
+        if ($duration = $mmobj->getProperty('soft-editing-duration')) {
             return $duration;
-        else
+        } else {
             return $mmobj->getDuration();
+        }
     }
 }

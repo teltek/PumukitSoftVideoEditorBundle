@@ -1,6 +1,6 @@
 <?php
 
-namespace Pumukit\VideoEditorBundle\Services;
+namespace Pumukit\SoftVideoEditorBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Pumukit\SchemaBundle\Document\MultimediaObject;
@@ -24,7 +24,7 @@ class AnnotationsListenerService
         $mmobj = $this->repoMmobj->find($mmobjId);
         //get all annotations for this mmobj
         $annotations = $this->repoAnnotations->createQueryBuilder()->field('multimediaObject')->equals(new \MongoId($mmobjId))->getQuery()->execute()->toArray();
-        $softDuration = $mmobj->getDuration();//init duration (in case there are no annotations
+        $softDuration = $mmobj->getDuration(); //init duration (in case there are no annotations
         $allAnnotations = array();
         //Prepares the allAnnotations structure we will use
         foreach ($annotations as $annon) {
@@ -87,8 +87,9 @@ class AnnotationsListenerService
                 $temp = $brk;
             }
         }
-        if(isset($temp))
+        if (isset($temp)) {
             $allBreaks[] = $temp;
+        }
 
         return $allBreaks;
     }
