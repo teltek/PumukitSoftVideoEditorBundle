@@ -21,7 +21,7 @@ Open a command console, enter your project directory and execute the
 following command to download the latest stable version of this bundle:
 
 ```bash
-$ composer require teltek/pmk2-video-editor-bundle dev-master
+$ composer require teltek/pmk2-soft-video-editor-bundle dev-master
 ```
 
 
@@ -31,7 +31,7 @@ Install the bundle by executing the following line command. This command updates
 .
 
 ```bash
-$ php app/console pumukit:install:bundle Pumukit/VideoEditorBundle/PumukitVideoEditorBundle
+$ php app/console pumukit:install:bundle Pumukit/SoftVideoEditorBundle/PumukitSoftVideoEditorBundle
 ```
 
 ### Step 3: Update assets
