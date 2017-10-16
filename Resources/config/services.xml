@@ -6,12 +6,12 @@
 
   <services>
 
-    <service id="pumukitvideoeditor.annotationsapilistener" class="Pumukit\VideoEditorBundle\Services\AnnotationsListenerService">
+    <service id="pumukitvideoeditor.annotationsapilistener" class="Pumukit\SoftVideoEditorBundle\Services\AnnotationsListenerService">
       <argument type="service" id="doctrine_mongodb.odm.document_manager"/>
       <tag name="kernel.event_listener" event="annotations.update" method="onAnnotationsUpdate" />
     </service>
 
-    <service id="pumukitschema.mmsduration" class="Pumukit\VideoEditorBundle\Services\MultimediaObjectDurationService">
+    <service id="pumukitschema.mmsduration" class="Pumukit\SoftVideoEditorBundle\Services\MultimediaObjectDurationService">
       <argument type="service" id="doctrine_mongodb.odm.document_manager"/>
     </service>
   </services>
