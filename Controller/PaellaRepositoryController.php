@@ -26,6 +26,7 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
         //$opencastAnnotationService = $this->container->get('video_editor.opencast_annotations');
         $serializer = $this->get('serializer');
         $picService = $this->get('pumukitschema.pic');
+        $trackService = $this->get('pumukit_baseplayer.trackurl');
         $pic = $picService->getFirstUrlPic($mmobj, true, false);
 
         $data = array();
@@ -34,7 +35,7 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
         $tracks = $this->getMmobjTracks($mmobj);
         if (isset($tracks['display'])) {
             $track = $tracks['display'];
-            $src = $this->getAbsoluteUrl($request, $track->getUrl());
+            $src = $this->getAbsoluteUrl($request, $trackService->generateTrackFileUrl($track, true));
             $mimeType = $track->getMimetype();
             $dataStream = array(
                 'sources' => array(
@@ -57,7 +58,7 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
         }
         if (isset($tracks['presentation'])) {
             $track = $tracks['presentation'];
-            $src = $this->getAbsoluteUrl($request, $track->getUrl());
+            $src = $this->getAbsoluteUrl($request, $trackService->generateTrackFileUrl($track, true));
             $mimeType = $track->getMimetype();
             $dataStream = array(
                 'sources' => array(
