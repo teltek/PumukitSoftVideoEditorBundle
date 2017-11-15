@@ -3,7 +3,7 @@
 
 {% block meta %}
   {# THIS IS WHAT MAKES PAELLA WORK #}
-  <base href="/bundles/pumukitvideoeditor/paella/player/">
+  <base href="/bundles/pumukitsoftvideoeditor/paella/player/">
   {{ parent() }}
 
 {% endblock %}
@@ -20,13 +20,13 @@
 
 {% endblock%}
 {% block stylesheets %}
-  <link rel="stylesheet" href="{{ asset('bundles/pumukitvideoeditor/paella/player/resources/bootstrap/css/bootstrap.slate.min.css') }}" type="text/css" media="screen" charset="utf-8">
-  <link rel="stylesheet" href="{{ asset('bundles/pumukitvideoeditor/paella/player/resources/style/style_dark.css') }}" id="paellaSkin" type="text/css" media="screen" title="no title" charset="utf-8">
+  <link rel="stylesheet" href="{{ asset('bundles/pumukitsoftvideoeditor/paella/player/resources/bootstrap/css/bootstrap.slate.min.css') }}" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="{{ asset('bundles/pumukitsoftvideoeditor/paella/player/resources/style/style_dark.css') }}" id="paellaSkin" type="text/css" media="screen" title="no title" charset="utf-8">
 {% endblock %}
 
 {% block title %}{{ parent() }} - {{ multimediaObject.title }}{% endblock %}
 {% block keywords %}{{ parent() }} - {{ multimediaObject.keyword }}{% endblock %}
 
 {% block body_base %}
-  {% include 'PumukitVideoEditorBundle:SoftVideo:player.html.twig' %}
+  {% include 'PumukitSoftVideoEditorBundle:Video:player.html.twig' %}
 {% endblock %}
