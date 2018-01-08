@@ -47,6 +47,7 @@ class AnnotationsListenerService
         }
         //Add to the mmobj as 'soft-editing-duration'
         $mmobj->setProperty('soft-editing-duration', $softDuration);
+        $mmobj->setDuration($softDuration);
         $this->dm->persist($mmobj);
         $this->dm->flush();
     }
