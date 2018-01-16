@@ -18,6 +18,10 @@ class MultimediaObjectDurationService
 
     public function getMmobjDuration(MultimediaObject $mmobj)
     {
-        return $mmobj->getDuration();
+        if ($duration = $mmobj->getProperty('soft-editing-duration')) {
+            return $duration;
+        } else {
+            return $mmobj->getDuration();
+        }
     }
 }
