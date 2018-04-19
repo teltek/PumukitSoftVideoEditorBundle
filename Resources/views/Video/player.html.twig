@@ -16,14 +16,18 @@
  }
 </style>
 <script>
- {% if multimediaObject.getProperty('opencastinvert') %}
- setTimeout(function(){
-     paella.events.trigger(paella.events.setProfile, {profileName: "slide_professor"});
- }, 300);
+ {% if app.request.query.has('paella_layout') %}
+     {% set profileName = app.request.query.has('paella_layout') %}
+ {% elseif multimediaObject.getProperty('paellalayout') %}
+     {% set profileName = multimediaObject.getProperty('paellalayout') %}
+ {% elseif multimediaObject.getProperty('opencastinvert') %}
+     {% set profileName = 'slide_professor' %}
  {% else %}
- setTimeout(function(){
-     paella.events.trigger(paella.events.setProfile, {profileName: "professor_slide"});
- }, 300);
+     {% set profileName = 'professor_slide' %}
  {% endif %}
- loadPaella('playerContainer', '{{multimediaObject.id}}');
+
+ setTimeout(function(){
+      paella.events.trigger(paella.events.setProfile, {profileName: "{{ profileName }}"});
+  }, 300);
+ loadPaella('playerContainer', '{{ multimediaObject.id }}');
 </script>
