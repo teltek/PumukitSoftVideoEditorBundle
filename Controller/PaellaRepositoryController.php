@@ -117,7 +117,7 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
     {
         $tracks = array();
         $availableCodecs = array('h264', 'vp8', 'vp9');
-        if ($mmobj->getProperty('opencast')) {
+        if ($mmobj->isMultistream()) {
             $presenterTracks = $mmobj->getFilteredTracksWithTags(array('presenter/delivery'));
             $presentationTracks = $mmobj->getFilteredTracksWithTags(array('presentation/delivery'));
 
