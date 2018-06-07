@@ -24,7 +24,8 @@ class AnnotationsListenerService
         $mmobj = $this->repoMmobj->find($mmobjId);
         //get all annotations for this mmobj
         $annotations = $this->repoAnnotations->createQueryBuilder()->field('multimediaObject')->equals(new \MongoId($mmobjId))->getQuery()->execute()->toArray();
-        $softDuration = $mmobj->getDuration(); //init duration (in case there are no annotations
+        $initialDuration = $mmobj->getDuration(); //init duration (in case there are no annotations
+        $softDuration = $mmobj->getDuration();
         $allAnnotations = array();
         //Prepares the allAnnotations structure we will use
         foreach ($annotations as $annon) {
@@ -46,10 +47,12 @@ class AnnotationsListenerService
             }
         }
         //Add to the mmobj as 'soft-editing-duration'
-        $mmobj->setProperty('soft-editing-duration', $softDuration);
-        $mmobj->setDuration($softDuration);
-        $this->dm->persist($mmobj);
-        $this->dm->flush();
+        if ($softDuration != $initialDuration) {
+            $mmobj->setProperty('soft-editing-duration', $softDuration);
+            $mmobj->setDuration($softDuration);
+            $this->dm->persist($mmobj);
+            $this->dm->flush();
+        }
     }
 
     private function getProperBreaks($breaks, $trim)
