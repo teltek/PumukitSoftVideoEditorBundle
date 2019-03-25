@@ -1,7 +1,6 @@
 # Soft Video Editor Bundle
 
-Bundle based on [Symfony](http://symfony.com/) to work with the [PuMuKIT Video Platform](https://github
-.com/pumukit/pumukit/blob/2.1.x/README.md).
+Bundle based on [Symfony](http://symfony.com/) to work with the [PuMuKIT Video Platform](https://github.com/pumukit/pumukit/blob/2.1.x/README.md).
 
 ![video editor](Resources/video_doc.jpg)
 
