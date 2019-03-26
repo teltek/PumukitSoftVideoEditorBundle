@@ -22,8 +22,8 @@
     ],
     "require": {
         "php": ">=7.2",
-        "pumukit/pumukit": ">=3.0.x",
-        "teltek/pumukit-paella-player-bundle": ">=2.0.x"
+        "pumukit/pumukit": ">=3.0"
+        "teltek/pumukit-paella-player-bundle": ">=2.0"
     },
     "autoload": {
         "psr-4": {
