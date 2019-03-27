@@ -3,13 +3,12 @@
 namespace Pumukit\SoftVideoEditorBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Pumukit\SchemaBundle\Document\MultimediaObject;
 
 class AnnotationsListenerService
 {
     private $dm;
-    private $repo;
-    private $dispatcher;
+    private $repoMmobj;
+    private $repoAnnotations;
 
     public function __construct(DocumentManager $documentManager)
     {

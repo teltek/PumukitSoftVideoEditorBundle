@@ -65,7 +65,7 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
                     'mp4' => array(
                         array(
                             'src' => $src,
-                            'mimetype' => $mimeType, )
+                            'mimetype' => $mimeType, ),
                     ),
                 ),
             );
@@ -170,7 +170,7 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
             }
 
             foreach ($mediaPackage['attachments']['attachment'] as $attachmnt) {
-                if ($attachmnt['type'] == 'presentation/segment+preview') {
+                if ('presentation/segment+preview' == $attachmnt['type']) {
                     $result = array();
 
                     //Getting time by parsing hours, minutes and second of a string of this type ->  time=T12:12:12:0F1000
