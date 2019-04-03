@@ -1,10 +1,10 @@
 {
-    "name": "teltek/pmk2-soft-video-editor-bundle",
+    "name": "teltek/pumukit-soft-video-editor-bundle",
     "type": "symfony-bundle",
     "description": "Soft Video Editor Bundle",
     "keywords": [
         "theming",
-        "symfony2",
+        "symfony",
         "bundle",
         "pumukit",
         "teltek",
@@ -12,7 +12,7 @@
         "video",
         "editor"
     ],
-    "homepage": "https://github.com/teltek/PuMuKIT2-soft-video-editor-bundle",
+    "homepage": "https://github.com/teltek/PumukitSoftVideoEditorBundle",
     "license": "proprietary",
     "authors": [
         {
@@ -25,7 +25,7 @@
         "symfony/framework-bundle": "~2.0",
         "twig/twig": "~1.5",
         "pumukit/pumukit2": ">=2.2",
-        "teltek/pmk2-paella-player-bundle": ">=1.0"
+        "teltek/pumukit-paella-player-bundle": ">=1.0"
     },
     "autoload": {
         "psr-4": {
