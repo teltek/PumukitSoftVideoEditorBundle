@@ -24,7 +24,7 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
     {
         //TODO: Do the annotation getting using a service function.
         //$opencastAnnotationService = $this->container->get('video_editor.opencast_annotations');
-        $serializer = $this->get('serializer');
+        $serializer = $this->get('jms_serializer');
         $picService = $this->get('pumukitschema.pic');
         $trackService = $this->get('pumukit_baseplayer.trackurl');
         $pic = $picService->getFirstUrlPic($mmobj, true, false);
