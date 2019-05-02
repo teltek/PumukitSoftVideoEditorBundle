@@ -2,7 +2,7 @@
 
 namespace Pumukit\SoftVideoEditorBundle\Controller;
 
-use Pumukit\NewAdminBundle\Controller\NewAdminController;
+use Pumukit\NewAdminBundle\Controller\NewAdminControllerInterface;
 use Pumukit\SchemaBundle\Document\MultimediaObject;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @Security("is_granted('ROLE_ACCESS_MULTIMEDIA_SERIES')")
  */
-class PaellaRepositoryController extends Controller implements NewAdminController
+class PaellaRepositoryController extends Controller implements NewAdminControllerInterface
 {
     /**
      * @Route("/paellarepository/{id}.{_format}", defaults={"_format"="json"}, requirements={"_format": "json|xml"})
