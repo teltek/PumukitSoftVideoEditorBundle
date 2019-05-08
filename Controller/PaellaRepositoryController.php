@@ -58,7 +58,7 @@ class PaellaRepositoryController extends Controller implements NewAdminControlle
         }
         if (isset($tracks['presentation'])) {
             $track = $tracks['presentation'];
-            $src = $this->getAbsoluteUrl($request, $trackService->generateTrackFileUrl($track, true));
+            $src = $this->getAbsoluteUrl($request, $trackService->generateTrackFileUrl($track));
             $mimeType = $track->getMimetype();
             $dataStream = array(
                 'sources' => array(
