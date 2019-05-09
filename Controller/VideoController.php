@@ -21,20 +21,17 @@ class VideoController extends Controller
      */
     public function indexAction(MultimediaObject $multimediaObject, Request $request)
     {
+        $tracks = [];
         $track = $request->query->has('track_id') ?
-        $multimediaObject->getTrackById($request->query->get('track_id')) :
-        $multimediaObject->getFilteredTrackWithTags(array('display'));
-
-        if ($track && $track->containsTag('download')) {
-            return $this->redirect($track->getUrl());
+            $multimediaObject->getTrackById($request->query->get('track_id')) :
+            $multimediaObject->getFilteredTrackWithTags(['display']);
+        if ($track) {
+            $tracks[] = $track;
         }
-        //ADD LOGIC TO CHECK IF VIDEO IS MULTISTREAM (opencast)
-        //Then just return several tracks.
-        $tracks = array($track);
 
-        return array(
+        return [
             'multimediaObject' => $multimediaObject,
             'tracks' => $tracks,
-        );
+        ];
     }
 }

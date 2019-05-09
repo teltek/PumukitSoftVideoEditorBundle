@@ -28,5 +28,9 @@
 {% block keywords %}{{ parent() }} - {{ multimediaObject.keyword }}{% endblock %}
 
 {% block body_base %}
-  {% include 'PumukitSoftVideoEditorBundle:Video:player.html.twig' %}
+    {% if tracks %}
+        {% include 'PumukitSoftVideoEditorBundle:Video:player.html.twig' %}
+    {% else %}
+        <h1 class="text-center">{{ "Tracks found"|trans }}</h1>
+    {% endif %}
 {% endblock %}
