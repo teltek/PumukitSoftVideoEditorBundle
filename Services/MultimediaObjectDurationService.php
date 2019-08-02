@@ -20,8 +20,12 @@ class MultimediaObjectDurationService
     {
         if ($duration = $mmobj->getProperty('soft-editing-duration')) {
             return $duration;
-        } else {
-            return $mmobj->getDuration();
         }
+
+        if (0 === $mmobj->getDuration() && $mmobj->getProperty('externalplayer')) {
+            return null;
+        }
+
+        return $mmobj->getDuration();
     }
 }
