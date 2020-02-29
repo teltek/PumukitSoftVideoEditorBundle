@@ -3,7 +3,6 @@
     "type": "symfony-bundle",
     "description": "Soft Video Editor Bundle",
     "keywords": [
-        "theming",
         "symfony",
         "bundle",
         "pumukit",
@@ -22,8 +21,8 @@
     ],
     "require": {
         "php": ">=7.2",
-        "pumukit/pumukit": ">=3.0",
-        "teltek/pumukit-paella-player-bundle": ">=2.0"
+        "pumukit/pumukit": "^4.0",
+        "teltek/pumukit-paella-player-bundle": "dev-master || ^3.0"
     },
     "autoload": {
         "psr-4": {

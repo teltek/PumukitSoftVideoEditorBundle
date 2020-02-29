@@ -3,29 +3,34 @@
 namespace Pumukit\SoftVideoEditorBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
+use MongoDB\BSON\ObjectId;
+use Pumukit\SchemaBundle\Document\Annotation;
+use Pumukit\SchemaBundle\Document\MultimediaObject;
+use Pumukit\SchemaBundle\Event\AnnotationsUpdateEvent;
 
 class AnnotationsListenerService
 {
-    private $dm;
-    private $repoMmobj;
-    private $repoAnnotations;
+    private $documentManager;
 
     public function __construct(DocumentManager $documentManager)
     {
-        $this->dm = $documentManager;
-        $this->repoMmobj = $this->dm->getRepository('PumukitSchemaBundle:MultimediaObject');
-        $this->repoAnnotations = $this->dm->getRepository('PumukitSchemaBundle:Annotation');
+        $this->documentManager = $documentManager;
     }
 
-    public function onAnnotationsUpdate($event)
+    public function onAnnotationsUpdate(AnnotationsUpdateEvent $event): void
     {
         $mmobjId = $event->getMultimediaObject();
-        $mmobj = $this->repoMmobj->find($mmobjId);
+        $mmobj = $this->documentManager->getRepository(MultimediaObject::class)->find($mmobjId);
         //get all annotations for this mmobj
-        $annotations = $this->repoAnnotations->createQueryBuilder()->field('multimediaObject')->equals(new \MongoId($mmobjId))->getQuery()->execute()->toArray();
+        $annotations = $this->documentManager->getRepository(Annotation::class)->createQueryBuilder()
+            ->field('multimediaObject')->equals(new ObjectId($mmobjId))
+            ->getQuery()
+            ->execute()
+        ;
+
         $initialDuration = $mmobj->getDuration(); //init duration (in case there are no annotations
         $softDuration = $mmobj->getDuration();
-        $allAnnotations = array();
+        $allAnnotations = [];
         //Prepares the allAnnotations structure we will use
         foreach ($annotations as $annon) {
             $allAnnotations[$annon->getType()] = json_decode($annon->getValue(), true);
@@ -49,8 +54,8 @@ class AnnotationsListenerService
         if ($softDuration != $initialDuration) {
             $mmobj->setProperty('soft-editing-duration', $softDuration);
             $mmobj->setDuration($softDuration);
-            $this->dm->persist($mmobj);
-            $this->dm->flush();
+            $this->documentManager->persist($mmobj);
+            $this->documentManager->flush();
         }
     }
 
@@ -77,7 +82,7 @@ class AnnotationsListenerService
         usort($breaks, function ($a, $b) {
             return $a['s'] > $b['s'];
         });
-        $allBreaks = array();
+        $allBreaks = [];
         //Join breaks that overlap
         foreach ($breaks as $brk) {
             if (!isset($temp)) {

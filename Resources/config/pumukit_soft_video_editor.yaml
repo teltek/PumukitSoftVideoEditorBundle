@@ -1,0 +1,17 @@
+services:
+  _defaults:
+    autowire:      true
+    autoconfigure: true
+    public:        true
+
+  Pumukit\SoftVideoEditorBundle\Controller\:
+    resource: '../../Controller'
+    tags: ['controller.service_arguments']
+
+  Pumukit\SoftVideoEditorBundle\Services\MultimediaObjectDurationService:
+    class: Pumukit\SoftVideoEditorBundle\Services\MultimediaObjectDurationService
+
+  Pumukit\SoftVideoEditorBundle\Services\AnnotationsListenerService:
+    class: Pumukit\SoftVideoEditorBundle\Services\AnnotationsListenerService
+    tags:
+      - { name: "kernel.event_listener", event: "annotations.update", method: "onAnnotationsUpdate" }

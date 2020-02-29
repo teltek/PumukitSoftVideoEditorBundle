@@ -2,24 +2,19 @@
 
 namespace Pumukit\SoftVideoEditorBundle\Controller;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Pumukit\SchemaBundle\Document\MultimediaObject;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
-class VideoController extends Controller
+class VideoController extends AbstractController
 {
     /**
-     * @Route("/video/{id}", name="pumukit_videoeditor_index" )
-     * @Template()
-     *
-     * @param MultimediaObject $multimediaObject
-     * @param Request          $request
-     *
-     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/video/{id}", name="pumukit_videoeditor_index")
+     * @Template("@PumukitSoftVideoEditor/Video/index.html.twig")
      */
-    public function indexAction(MultimediaObject $multimediaObject, Request $request)
+    public function indexAction(MultimediaObject $multimediaObject, Request $request): array
     {
         $tracks = [];
         $track = $request->query->has('track_id') ?
