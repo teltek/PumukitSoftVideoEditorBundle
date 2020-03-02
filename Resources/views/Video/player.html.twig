@@ -1,33 +1,36 @@
 <div id="playerContainer" style="display:block;width:100%">
 </div>
 <style>
- #playerContainer_videoContainer {
-   background-color: #222;
-   background-image: linear-gradient(to bottom, #333333, #111111);
- }
- #playerContainer_videoContainer_bkg {
-   display: none;
- }
- #paella_logo\.png {
-   display: none !important;
- }
- .btn-group.editorDropdown.pull-right {
-   display: none;
- }
+    #playerContainer_videoContainer {
+        background-color: #222;
+        background-image: linear-gradient(to bottom, #333333, #111111);
+    }
+
+    #playerContainer_videoContainer_bkg {
+        display: none;
+    }
+
+    #paella_logo\.png {
+        display: none !important;
+    }
+
+    .btn-group.editorDropdown.pull-right {
+        display: none;
+    }
 </style>
 <script>
- {% if app.request.query.has('paella_layout') %}
-     {% set profileName = app.request.query.has('paella_layout') %}
- {% elseif multimediaObject.getProperty('paellalayout') %}
-     {% set profileName = multimediaObject.getProperty('paellalayout') %}
- {% elseif multimediaObject.getProperty('opencastinvert') %}
-     {% set profileName = 'slide_professor' %}
- {% else %}
-     {% set profileName = 'professor_slide' %}
- {% endif %}
+    {% if app.request.query.has('paella_layout') %}
+    {% set profileName = app.request.query.has('paella_layout') %}
+    {% elseif multimediaObject.getProperty('paellalayout') %}
+    {% set profileName = multimediaObject.getProperty('paellalayout') %}
+    {% elseif multimediaObject.getProperty('opencastinvert') %}
+    {% set profileName = 'slide_professor' %}
+    {% else %}
+    {% set profileName = 'professor_slide' %}
+    {% endif %}
 
- setTimeout(function(){
-      paella.events.trigger(paella.events.setProfile, {profileName: "{{ profileName }}"});
-  }, 300);
- loadPaella('playerContainer', '{{ multimediaObject.id }}');
+    setTimeout(function () {
+        paella.events.trigger(paella.events.setProfile, {profileName: "{{ profileName }}"});
+    }, 300);
+    loadPaella('playerContainer', '{{ multimediaObject.id }}');
 </script>
