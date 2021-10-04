@@ -29,7 +29,7 @@
 {% endblock %}
 
 {% block title %}{{ parent() }} - {{ multimediaObject.title }}{% endblock %}
-{% block keywords %}{{ parent() }} - {{ multimediaObject.keyword }}{% endblock %}
+{% block keywords %}{{ parent() }} - {{ multimediaObject.getKeywords()|join(',') }}{% endblock %}
 
 {% block body_base %}
     {% if tracks %}
