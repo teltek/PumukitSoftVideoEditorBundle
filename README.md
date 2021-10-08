@@ -16,7 +16,7 @@ composer require teltek/pumukit-soft-video-editor-bundle
 if not, add this to config/bundles.php
 
 ```
-Pumukit/SoftVideoEditorBundle/PumukitSoftVideoEditorBundle::class => ['all' => true]
+Pumukit\SoftVideoEditorBundle\PumukitSoftVideoEditorBundle::class => ['all' => true]
 ```
 
 Then execute the following commands
