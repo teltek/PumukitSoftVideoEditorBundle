@@ -33,7 +33,7 @@ class AnnotationsListenerService
         $allAnnotations = [];
         //Prepares the allAnnotations structure we will use
         foreach ($annotations as $annon) {
-            $allAnnotations[$annon->getType()] = json_decode($annon->getValue(), true);
+            $allAnnotations[$annon->getType()] = json_decode($annon->getValue(), true, 512, JSON_THROW_ON_ERROR);
         }
         $trimTimes = null;
         //If there is a trimming, change the original time by the trimming time
