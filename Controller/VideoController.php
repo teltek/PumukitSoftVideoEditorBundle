@@ -3,7 +3,6 @@
 namespace Pumukit\SoftVideoEditorBundle\Controller;
 
 use Pumukit\SchemaBundle\Document\MultimediaObject;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +26,7 @@ class VideoController extends AbstractController
             $tracks[] = $track;
         }
 
-        return $this->render("@PumukitSoftVideoEditor/Video/index.html.twig", [
+        return $this->render('@PumukitSoftVideoEditor/Video/index.html.twig', [
             'multimediaObject' => $multimediaObject,
             'tracks' => $tracks,
         ]);
