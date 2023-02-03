@@ -6,6 +6,7 @@ use Pumukit\SchemaBundle\Document\MultimediaObject;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -15,9 +16,8 @@ class VideoController extends AbstractController
 {
     /**
      * @Route("/video/{id}", name="pumukit_videoeditor_index")
-     * @Template("@PumukitSoftVideoEditor/Video/index.html.twig")
      */
-    public function indexAction(MultimediaObject $multimediaObject, Request $request): array
+    public function indexAction(MultimediaObject $multimediaObject, Request $request): Response
     {
         $tracks = [];
         $track = $request->query->has('track_id') ?
@@ -27,9 +27,9 @@ class VideoController extends AbstractController
             $tracks[] = $track;
         }
 
-        return [
+        return $this->render("@PumukitSoftVideoEditor/Video/index.html.twig", [
             'multimediaObject' => $multimediaObject,
             'tracks' => $tracks,
-        ];
+        ]);
     }
 }

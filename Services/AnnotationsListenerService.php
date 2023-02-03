@@ -21,27 +21,27 @@ class AnnotationsListenerService
     {
         $mmobjId = $event->getMultimediaObject();
         $mmobj = $this->documentManager->getRepository(MultimediaObject::class)->find($mmobjId);
-        //get all annotations for this mmobj
+        // get all annotations for this mmobj
         $annotations = $this->documentManager->getRepository(Annotation::class)->createQueryBuilder()
             ->field('multimediaObject')->equals(new ObjectId($mmobjId))
             ->getQuery()
             ->execute()
         ;
 
-        $initialDuration = $mmobj->getDuration(); //init duration (in case there are no annotations
+        $initialDuration = $mmobj->getDuration(); // init duration (in case there are no annotations
         $softDuration = $mmobj->getDuration();
         $allAnnotations = [];
-        //Prepares the allAnnotations structure we will use
+        // Prepares the allAnnotations structure we will use
         foreach ($annotations as $annon) {
             $allAnnotations[$annon->getType()] = json_decode($annon->getValue(), true, 512, JSON_THROW_ON_ERROR);
         }
         $trimTimes = null;
-        //If there is a trimming, change the original time by the trimming time
+        // If there is a trimming, change the original time by the trimming time
         if (isset($allAnnotations['paella/trimming']['trimming'])) {
             $trimTimes = $allAnnotations['paella/trimming']['trimming'];
             $softDuration = $trimTimes['end'] - $trimTimes['start'];
         }
-        //If there are any breaks, arrange the breaks array so they don't overlap and decrease the total time by the sum of the breaks.
+        // If there are any breaks, arrange the breaks array so they don't overlap and decrease the total time by the sum of the breaks.
         if (isset($allAnnotations['paella/breaks']['breaks'])) {
             $allBreaks = $allAnnotations['paella/breaks']['breaks'];
             $allBreaks = $this->getProperBreaks($allBreaks, $trimTimes);
@@ -50,7 +50,7 @@ class AnnotationsListenerService
                 $softDuration -= $breakTime;
             }
         }
-        //Add to the mmobj as 'soft-editing-duration'
+        // Add to the mmobj as 'soft-editing-duration'
         if ($softDuration != $initialDuration) {
             $mmobj->setProperty('soft-editing-duration', $softDuration);
             $mmobj->setDuration($softDuration);
@@ -62,11 +62,11 @@ class AnnotationsListenerService
     private function getProperBreaks($breaks, $trim)
     {
         if (isset($trim)) {
-            //Exclude breaks that aren't inside the trimming marks
+            // Exclude breaks that aren't inside the trimming marks
             $breaks = array_filter($breaks, function ($a) use ($trim) {
                 return $a['s'] <= $trim['end'] && $a['e'] >= $trim['start'];
             });
-            //Cut breaks that are partially inside the trimming marks
+            // Cut breaks that are partially inside the trimming marks
             $breaks = array_map(function ($a) use ($trim) {
                 if ($a['s'] < $trim['start']) {
                     $a['s'] = $trim['start'];
@@ -78,12 +78,12 @@ class AnnotationsListenerService
                 return $a;
             }, $breaks);
         }
-        //Sort breaks by their starting points
+        // Sort breaks by their starting points
         usort($breaks, function ($a, $b) {
             return $a['s'] > $b['s'];
         });
         $allBreaks = [];
-        //Join breaks that overlap
+        // Join breaks that overlap
         foreach ($breaks as $brk) {
             if (!isset($temp)) {
                 $temp = $brk;

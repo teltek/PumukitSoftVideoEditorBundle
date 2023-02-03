@@ -154,17 +154,17 @@ class PaellaRepositoryController extends AbstractController implements NewAdminC
 
     private function getOpencastFrameList(MultimediaObject $multimediaObject)
     {
-        //If there is no opencast client this won't work
+        // If there is no opencast client this won't work
         if (!$this->has('pumukit_opencast.client')) {
             return [];
         }
 
         $opencastClient = $this->get('pumukit_opencast.client');
         $images = [];
-        //Only works if the video is an opencast video
+        // Only works if the video is an opencast video
         if ($opencastId = $multimediaObject->getProperty('opencast')) {
             $mediaPackage = $opencastClient->getMediaPackage($opencastId);
-            //If it doesn't have attachments as opencast should, we return an empty result
+            // If it doesn't have attachments as opencast should, we return an empty result
             if (!isset($mediaPackage['attachments']['attachment'])) {
                 return [];
             }
@@ -173,7 +173,7 @@ class PaellaRepositoryController extends AbstractController implements NewAdminC
                 if ('presentation/segment+preview' == $attachmnt['type']) {
                     $result = [];
 
-                    //Getting time by parsing hours, minutes and second of a string of this type ->  time=T12:12:12:0F1000
+                    // Getting time by parsing hours, minutes and second of a string of this type ->  time=T12:12:12:0F1000
                     preg_match('/time\=T(.*?):(.*?):(.*?):;*/', $attachmnt['ref'], $result);
                     $time = $result[1] * 3600 + $result[2] * 60 + $result[3];
 
