@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Security("is_granted('ROLE_ACCESS_MULTIMEDIA_SERIES')")
+ *
  * @Route("admin/videoeditor")
  */
 class PaellaRepositoryController extends AbstractController implements NewAdminControllerInterface
