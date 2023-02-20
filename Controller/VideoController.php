@@ -16,7 +16,7 @@ class VideoController extends AbstractController
     /**
      * @Route("/video/{id}", name="pumukit_videoeditor_index")
      */
-    public function indexAction(MultimediaObject $multimediaObject, Request $request): Response
+    public function indexAction(Request $request, MultimediaObject $multimediaObject): Response
     {
         $tracks = [];
         $track = $request->query->has('track_id') ?
