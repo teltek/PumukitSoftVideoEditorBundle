@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\MimeTypes;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -45,7 +46,8 @@ class PaellaRepositoryController extends AbstractController implements NewAdminC
         if (isset($tracks['display'])) {
             $track = $tracks['display'];
             $src = $this->getAbsoluteUrl($request, $this->trackUrlService->generateTrackFileUrl($track));
-            $mimeType = $track->getMimetype();
+            $mimeTypes = new MimeTypes();
+            $mimeType = $mimeTypes->guessMimeType($track->storage()->path()->path());
             $dataStream = [
                 'sources' => [
                     'mp4' => [
@@ -59,8 +61,8 @@ class PaellaRepositoryController extends AbstractController implements NewAdminC
             ];
 
             // If pumukit doesn't know the resolution, paella can guess it.
-            if ($track->getWidth() && $track->getHeight()) {
-                $dataStream['sources']['mp4'][0]['res'] = ['w' => $track->getWidth(), 'h' => $track->getHeight()];
+            if ($track->metadata()->width() && $track->metadata()->height()) {
+                $dataStream['sources']['mp4'][0]['res'] = ['w' => $track->metadata()->width(), 'h' => $track->metadata()->height()];
             }
 
             $data['streams'][] = $dataStream;

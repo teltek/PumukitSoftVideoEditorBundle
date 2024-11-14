@@ -20,8 +20,8 @@
         }
     ],
     "require": {
-        "php": ">=7.4",
-        "pumukit/pumukit": "^4.0",
+        "php": "^8.2",
+        "pumukit/pumukit": "^5.0",
         "teltek/pumukit-paella-player-bundle": "^3.0"
     },
     "autoload": {
