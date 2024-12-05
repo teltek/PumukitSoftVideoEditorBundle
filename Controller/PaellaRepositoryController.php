@@ -127,14 +127,14 @@ class PaellaRepositoryController extends AbstractController implements NewAdminC
             $presentationTracks = $multimediaObject->getFilteredTracksWithTags(['presentation/delivery']);
 
             foreach ($presenterTracks as $track) {
-                if (in_array($track->getVcodec(), $availableCodecs)) {
+                if (in_array($track->metadata()->codecName(), $availableCodecs)) {
                     $tracks['display'] = $track;
 
                     break;
                 }
             }
             foreach ($presentationTracks as $track) {
-                if (in_array($track->getVcodec(), $availableCodecs)) {
+                if (in_array($track->metadata()->codecName(), $availableCodecs)) {
                     $tracks['presentation'] = $track;
 
                     break;
