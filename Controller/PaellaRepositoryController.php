@@ -7,34 +7,25 @@ use Pumukit\CoreBundle\Services\SerializerService;
 use Pumukit\NewAdminBundle\Controller\NewAdminControllerInterface;
 use Pumukit\SchemaBundle\Document\MultimediaObject;
 use Pumukit\SchemaBundle\Services\PicService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\MimeTypes;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-/**
- * @Security("is_granted('ROLE_ACCESS_MULTIMEDIA_SERIES')")
- *
- * @Route("admin/videoeditor")
- */
+#[Route('admin/videoeditor')]
+#[IsGranted('ROLE_ACCESS_MULTIMEDIA_SERIES')]
 class PaellaRepositoryController extends AbstractController implements NewAdminControllerInterface
 {
-    private $serializer;
-    private $picService;
-    private $trackUrlService;
+    public function __construct(
+        private readonly SerializerService $serializer,
+        private readonly PicService $picService,
+        private readonly TrackUrlService $trackUrlService,
+        private readonly ?object $opencastClient = null,
+    ) {}
 
-    public function __construct(SerializerService $serializer, PicService $picService, TrackUrlService $trackUrlService)
-    {
-        $this->serializer = $serializer;
-        $this->picService = $picService;
-        $this->trackUrlService = $trackUrlService;
-    }
-
-    /**
-     * @Route("/paellarepository/{id}.{_format}", methods={"GET"}, defaults={"_format"="json"}, requirements={"_format": "json|xml"})
-     */
+    #[Route('/paellarepository/{id}.{_format}', methods: ['GET'], defaults: ['_format' => 'json'], requirements: ['_format' => 'json|xml'])]
     public function indexAction(Request $request, MultimediaObject $multimediaObject): Response
     {
         $pic = $this->picService->getFirstUrlPic($multimediaObject, true, false);
@@ -158,18 +149,16 @@ class PaellaRepositoryController extends AbstractController implements NewAdminC
         return $tracks;
     }
 
-    private function getOpencastFrameList(MultimediaObject $multimediaObject)
+    private function getOpencastFrameList(MultimediaObject $multimediaObject): array
     {
-        // If there is no opencast client this won't work
-        if (!$this->has('pumukit_opencast.client')) {
+        if (null === $this->opencastClient) {
             return [];
         }
 
-        $opencastClient = $this->get('pumukit_opencast.client');
         $images = [];
         // Only works if the video is an opencast video
         if ($opencastId = $multimediaObject->getProperty('opencast')) {
-            $mediaPackage = $opencastClient->getMediaPackage($opencastId);
+            $mediaPackage = $this->opencastClient->getMediaPackage($opencastId);
             // If it doesn't have attachments as opencast should, we return an empty result
             if (!isset($mediaPackage['attachments']['attachment'])) {
                 return [];

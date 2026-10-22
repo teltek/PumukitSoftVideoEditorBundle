@@ -6,22 +6,18 @@ use Pumukit\SchemaBundle\Document\MultimediaObject;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("admin/videoeditor")
- */
+#[Route('admin/videoeditor')]
 class VideoController extends AbstractController
 {
-    /**
-     * @Route("/video/{id}", name="pumukit_videoeditor_index")
-     */
+    #[Route('/video/{id}', name: 'pumukit_videoeditor_index')]
     public function indexAction(Request $request, MultimediaObject $multimediaObject): Response
     {
         $tracks = [];
-        $track = $request->query->has('track_id') ?
-            $multimediaObject->getTrackById($request->query->get('track_id')) :
-            $multimediaObject->getFilteredTrackWithTags(['display']);
+        $track = $request->query->has('track_id')
+            ? $multimediaObject->getTrackById($request->query->get('track_id'))
+            : $multimediaObject->getFilteredTrackWithTags(['display']);
         if ($track) {
             $tracks[] = $track;
         }
