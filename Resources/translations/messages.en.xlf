@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="en" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="38c8f3e" resname="Edition saved">
+        <source>Edition saved</source>
+        <target>Edition saved</target>
+      </trans-unit>
+      <trans-unit id="053dc08" resname="The edition could not be saved">
+        <source>The edition could not be saved</source>
+        <target>The edition could not be saved</target>
+      </trans-unit>
+      <trans-unit id="a186936" resname="Discard the unsaved changes?">
+        <source>Discard the unsaved changes?</source>
+        <target>Discard the unsaved changes?</target>
+      </trans-unit>
+      <trans-unit id="60f7f99" resname="There are unsaved changes">
+        <source>There are unsaved changes</source>
+        <target>There are unsaved changes</target>
+      </trans-unit>
+      <trans-unit id="e4c38d6" resname="Break">
+        <source>Break</source>
+        <target>Break</target>
+      </trans-unit>
+      <trans-unit id="d22db41" resname="Chapter">
+        <source>Chapter</source>
+        <target>Chapter</target>
+      </trans-unit>
+      <trans-unit id="b3c1f92" resname="There is no playable track to edit.">
+        <source>There is no playable track to edit.</source>
+        <target>There is no playable track to edit.</target>
+      </trans-unit>
+      <trans-unit id="34a5d93" resname="Default layout">
+        <source>Default layout</source>
+        <target>Default layout</target>
+      </trans-unit>
+      <trans-unit id="0d27934" resname="Professor - Slide">
+        <source>Professor - Slide</source>
+        <target>Professor - Slide</target>
+      </trans-unit>
+      <trans-unit id="322cb47" resname="Professor">
+        <source>Professor</source>
+        <target>Professor</target>
+      </trans-unit>
+      <trans-unit id="6160a53" resname="Slide">
+        <source>Slide</source>
+        <target>Slide</target>
+      </trans-unit>
+      <trans-unit id="3b85133" resname="Back 5 seconds">
+        <source>Back 5 seconds</source>
+        <target>Back 5 seconds</target>
+      </trans-unit>
+      <trans-unit id="15b4faf" resname="Play / pause">
+        <source>Play / pause</source>
+        <target>Play / pause</target>
+      </trans-unit>
+      <trans-unit id="6332b4a" resname="Forward 5 seconds">
+        <source>Forward 5 seconds</source>
+        <target>Forward 5 seconds</target>
+      </trans-unit>
+      <trans-unit id="5095087" resname="Preview the edited video">
+        <source>Preview the edited video</source>
+        <target>Preview the edited video</target>
+      </trans-unit>
+      <trans-unit id="c04acf1" resname="Edited duration">
+        <source>Edited duration</source>
+        <target>Edited duration</target>
+      </trans-unit>
+      <trans-unit id="a9cb01a" resname="Trimming">
+        <source>Trimming</source>
+        <target>Trimming</target>
+      </trans-unit>
+      <trans-unit id="98a9b5c" resname="Breaks">
+        <source>Breaks</source>
+        <target>Breaks</target>
+      </trans-unit>
+      <trans-unit id="dbb7793" resname="Chapters">
+        <source>Chapters</source>
+        <target>Chapters</target>
+      </trans-unit>
+      <trans-unit id="862ee41" resname="Click the timeline to move the playhead and drag the handles to adjust. Space plays or pauses; the arrows move one second (five with Shift).">
+        <source>Click the timeline to move the playhead and drag the handles to adjust. Space plays or pauses; the arrows move one second (five with Shift).</source>
+        <target>Click the timeline to move the playhead and drag the handles to adjust. Space plays or pauses; the arrows move one second (five with Shift).</target>
+      </trans-unit>
+      <trans-unit id="d8014da" resname="Use the playhead">
+        <source>Use the playhead</source>
+        <target>Use the playhead</target>
+      </trans-unit>
+      <trans-unit id="fa11f6b" resname="Keep the whole video">
+        <source>Keep the whole video</source>
+        <target>Keep the whole video</target>
+      </trans-unit>
+      <trans-unit id="8e45013" resname="Add at the playhead">
+        <source>Add at the playhead</source>
+        <target>Add at the playhead</target>
+      </trans-unit>
+      <trans-unit id="6244a47" resname="The breaks are skipped when the video is played.">
+        <source>The breaks are skipped when the video is played.</source>
+        <target>The breaks are skipped when the video is played.</target>
+      </trans-unit>
+      <trans-unit id="9d7c772" resname="The chapters are listed next to the video in the portal.">
+        <source>The chapters are listed next to the video in the portal.</source>
+        <target>The chapters are listed next to the video in the portal.</target>
+      </trans-unit>
+      <trans-unit id="d94b420" resname="Discard">
+        <source>Discard</source>
+        <target>Discard</target>
+      </trans-unit>
+      <trans-unit id="e43ec38" resname="Go to">
+        <source>Go to</source>
+        <target>Go to</target>
+      </trans-unit>
+      <trans-unit id="0ba3309" resname="Description (optional)">
+        <source>Description (optional)</source>
+        <target>Description (optional)</target>
+      </trans-unit>
+      <trans-unit id="8446198" resname="Chapter time">
+        <source>Chapter time</source>
+        <target>Chapter time</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

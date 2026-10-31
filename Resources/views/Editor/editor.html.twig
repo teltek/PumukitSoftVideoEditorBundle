@@ -1,0 +1,152 @@
+<link rel="stylesheet" href="{{ asset('@pumukit/soft-video-editor/styles/editor.css') }}">
+<div class="sve"
+     data-controller="soft-video-editor--editor"
+     data-soft-video-editor--editor-save-url-value="{{ path('pumukit_videoeditor_save', {'id': multimediaObject.id}) }}"
+     data-soft-video-editor--editor-layout-url-value="{{ path('pumukitnewadmin_mms_updateProperty', {'id': multimediaObject.id}) }}"
+     data-soft-video-editor--editor-duration-value="{{ duration }}"
+     data-soft-video-editor--editor-edition-value="{{ edition|json_encode }}"
+     data-soft-video-editor--editor-messages-value="{{ {
+         saved: 'Edition saved'|trans,
+         saveError: 'The edition could not be saved'|trans,
+         layoutSaved: 'Multimedia Object saved OK'|trans,
+         layoutError: 'Multimedia Object saved ERROR'|trans,
+         discard: 'Discard the unsaved changes?'|trans,
+         unsaved: 'There are unsaved changes'|trans,
+         breakText: 'Break'|trans,
+         chapterText: 'Chapter'|trans,
+     }|json_encode }}"
+     data-action="keydown->soft-video-editor--editor#shortcut">
+    {% if sources is empty %}
+        <div class="alert alert-warning mb-0">{% trans %}There is no playable track to edit.{% endtrans %}</div>
+    {% else %}
+        {% if multimediaObject.isMultistream() %}
+            <div class="row g-2 align-items-center mb-2">
+                <label class="col-auto col-form-label" for="sve-layout">{% trans %}Default layout{% endtrans %}</label>
+                <div class="col-auto">
+                    <select class="form-select form-select-sm" id="sve-layout" data-action="soft-video-editor--editor#changeLayout">
+                        {% for value, label in {'professor_slide': 'Professor - Slide', 'professor': 'Professor', 'slide': 'Slide'} %}
+                            <option value="{{ value }}" {% if multimediaObject.getProperty('paellalayout') == value %}selected{% endif %}>{{ label|trans }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="row g-2 sve-videos">
+            <div class="{{ sources.presentation is defined ? 'col-md-7' : 'col-12' }}">
+                <video class="sve-video" preload="metadata" playsinline src="{{ sources.presenter }}" {% if poster %}poster="{{ poster }}"{% endif %}
+                       data-soft-video-editor--editor-target="video"
+                       data-action="loadedmetadata->soft-video-editor--editor#loaded timeupdate->soft-video-editor--editor#timeUpdate play->soft-video-editor--editor#played pause->soft-video-editor--editor#paused seeked->soft-video-editor--editor#sync"></video>
+            </div>
+            {% if sources.presentation is defined %}
+                <div class="col-md-5">
+                    <video class="sve-video" preload="metadata" playsinline muted src="{{ sources.presentation }}" data-soft-video-editor--editor-target="secondary"></video>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center gap-2 my-2">
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-secondary" title="{% trans %}Back 5 seconds{% endtrans %}" aria-label="{% trans %}Back 5 seconds{% endtrans %}" data-action="soft-video-editor--editor#back"><i class="fa-solid fa-backward" aria-hidden="true"></i></button>
+                <button type="button" class="btn btn-pumukit" title="{% trans %}Play / pause{% endtrans %}" aria-label="{% trans %}Play / pause{% endtrans %}" data-action="soft-video-editor--editor#togglePlay"><i class="fa-solid fa-play" aria-hidden="true" data-soft-video-editor--editor-target="playIcon"></i></button>
+                <button type="button" class="btn btn-secondary" title="{% trans %}Forward 5 seconds{% endtrans %}" aria-label="{% trans %}Forward 5 seconds{% endtrans %}" data-action="soft-video-editor--editor#forward"><i class="fa-solid fa-forward" aria-hidden="true"></i></button>
+            </div>
+            <span class="font-monospace sve-clock"><span data-soft-video-editor--editor-target="currentTime">00:00.0</span> / <span data-soft-video-editor--editor-target="totalTime">00:00.0</span></span>
+            <div class="form-check form-switch ms-md-3 mb-0">
+                <input class="form-check-input" type="checkbox" role="switch" id="sve-preview" data-soft-video-editor--editor-target="preview">
+                <label class="form-check-label" for="sve-preview">{% trans %}Preview the edited video{% endtrans %}</label>
+            </div>
+            <span class="ms-auto text-body-secondary small">{% trans %}Edited duration{% endtrans %}: <span class="font-monospace" data-soft-video-editor--editor-target="editedTime">00:00.0</span></span>
+        </div>
+
+        <div class="sve-timeline" data-soft-video-editor--editor-target="timeline" data-action="pointerdown->soft-video-editor--editor#pointerDown">
+            <div class="sve-ruler" data-soft-video-editor--editor-target="ruler"></div>
+            <div class="sve-lane sve-lane-trimming" title="{% trans %}Trimming{% endtrans %}">
+                <div class="sve-cut sve-cut-start" data-soft-video-editor--editor-target="cutStart"></div>
+                <div class="sve-cut sve-cut-end" data-soft-video-editor--editor-target="cutEnd"></div>
+                <div class="sve-handle" data-drag="trim-start" data-soft-video-editor--editor-target="trimStartHandle" title="{% trans %}Start{% endtrans %}"></div>
+                <div class="sve-handle" data-drag="trim-end" data-soft-video-editor--editor-target="trimEndHandle" title="{% trans %}End{% endtrans %}"></div>
+            </div>
+            <div class="sve-lane sve-lane-breaks" title="{% trans %}Breaks{% endtrans %}" data-soft-video-editor--editor-target="breaksLane"></div>
+            <div class="sve-lane sve-lane-marks" title="{% trans %}Chapters{% endtrans %}" data-soft-video-editor--editor-target="marksLane"></div>
+            <div class="sve-playhead" data-soft-video-editor--editor-target="playhead"></div>
+        </div>
+        <div class="small text-body-secondary mt-1">{% trans %}Click the timeline to move the playhead and drag the handles to adjust. Space plays or pauses; the arrows move one second (five with Shift).{% endtrans %}</div>
+
+        <div class="row g-3 mt-1">
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header"><i class="fa-solid fa-scissors text-success" aria-hidden="true"></i> {% trans %}Trimming{% endtrans %}</div>
+                    <div class="card-body">
+                        <div class="row g-2 align-items-end">
+                            <div class="col-6">
+                                <label class="form-label small" for="sve-trim-start">{% trans %}Start{% endtrans %}</label>
+                                <div class="input-group input-group-sm">
+                                    <input class="form-control font-monospace" id="sve-trim-start" data-soft-video-editor--editor-target="trimStart" data-action="change->soft-video-editor--editor#editTrimming">
+                                    <button type="button" class="btn btn-outline-secondary" title="{% trans %}Use the playhead{% endtrans %}" aria-label="{% trans %}Use the playhead{% endtrans %}" data-action="soft-video-editor--editor#trimStartHere"><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small" for="sve-trim-end">{% trans %}End{% endtrans %}</label>
+                                <div class="input-group input-group-sm">
+                                    <input class="form-control font-monospace" id="sve-trim-end" data-soft-video-editor--editor-target="trimEnd" data-action="change->soft-video-editor--editor#editTrimming">
+                                    <button type="button" class="btn btn-outline-secondary" title="{% trans %}Use the playhead{% endtrans %}" aria-label="{% trans %}Use the playhead{% endtrans %}" data-action="soft-video-editor--editor#trimEndHere"><i class="fa-solid fa-location-crosshairs" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-link px-0 mt-2" data-action="soft-video-editor--editor#resetTrimming">{% trans %}Keep the whole video{% endtrans %}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center">
+                        <span><i class="fa-solid fa-pause text-warning" aria-hidden="true"></i> {% trans %}Breaks{% endtrans %}</span>
+                        <button type="button" class="btn btn-sm btn-pumukit ms-auto" data-action="soft-video-editor--editor#addBreak"><i class="fa-solid fa-plus" aria-hidden="true"></i> {% trans %}Add at the playhead{% endtrans %}</button>
+                    </div>
+                    <ul class="list-group list-group-flush" data-kind="breaks" data-soft-video-editor--editor-target="breaksList" data-action="click->soft-video-editor--editor#listClick change->soft-video-editor--editor#listChange input->soft-video-editor--editor#listInput"></ul>
+                    <div class="card-body small text-body-secondary" data-soft-video-editor--editor-target="breaksEmpty">{% trans %}The breaks are skipped when the video is played.{% endtrans %}</div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card h-100">
+                    <div class="card-header d-flex align-items-center">
+                        <span><i class="fa-solid fa-bookmark text-primary" aria-hidden="true"></i> {% trans %}Chapters{% endtrans %}</span>
+                        <button type="button" class="btn btn-sm btn-pumukit ms-auto" data-action="soft-video-editor--editor#addMark"><i class="fa-solid fa-plus" aria-hidden="true"></i> {% trans %}Add at the playhead{% endtrans %}</button>
+                    </div>
+                    <ul class="list-group list-group-flush" data-kind="marks" data-soft-video-editor--editor-target="marksList" data-action="click->soft-video-editor--editor#listClick change->soft-video-editor--editor#listChange input->soft-video-editor--editor#listInput"></ul>
+                    <div class="card-body small text-body-secondary" data-soft-video-editor--editor-target="marksEmpty">{% trans %}The chapters are listed next to the video in the portal.{% endtrans %}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2 mt-3">
+            <span class="text-warning small d-none" data-soft-video-editor--editor-target="dirty"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> {% trans %}There are unsaved changes{% endtrans %}</span>
+            <button type="button" class="btn btn-secondary ms-auto" data-action="soft-video-editor--editor#discard" data-soft-video-editor--editor-target="discardButton" disabled>{% trans %}Discard{% endtrans %}</button>
+            <button type="button" class="btn btn-pumukit" data-action="soft-video-editor--editor#save" data-soft-video-editor--editor-target="saveButton" disabled>{% trans %}Save{% endtrans %}</button>
+        </div>
+
+        <template data-soft-video-editor--editor-target="breakTemplate">
+            <li class="list-group-item sve-item">
+                <div class="d-flex gap-1 align-items-center">
+                    <input class="form-control form-control-sm font-monospace sve-time" data-field="s" aria-label="{% trans %}Start{% endtrans %}">
+                    <span aria-hidden="true">–</span>
+                    <input class="form-control form-control-sm font-monospace sve-time" data-field="e" aria-label="{% trans %}End{% endtrans %}">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-role="go" title="{% trans %}Go to{% endtrans %}" aria-label="{% trans %}Go to{% endtrans %}"><i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-role="remove" title="{% trans %}Delete{% endtrans %}" aria-label="{% trans %}Delete{% endtrans %}"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
+                </div>
+                <input class="form-control form-control-sm mt-1" data-field="text" maxlength="255" placeholder="{% trans %}Description (optional){% endtrans %}" aria-label="{% trans %}Description{% endtrans %}">
+            </li>
+        </template>
+        <template data-soft-video-editor--editor-target="markTemplate">
+            <li class="list-group-item sve-item">
+                <div class="d-flex gap-1 align-items-center">
+                    <input class="form-control form-control-sm font-monospace sve-time" data-field="s" aria-label="{% trans %}Chapter time{% endtrans %}">
+                    <input class="form-control form-control-sm" data-field="name" maxlength="255" placeholder="{% trans %}Title{% endtrans %}" aria-label="{% trans %}Title{% endtrans %}">
+                    <button type="button" class="btn btn-sm btn-outline-secondary" data-role="go" title="{% trans %}Go to{% endtrans %}" aria-label="{% trans %}Go to{% endtrans %}"><i class="fa-solid fa-arrow-right-to-bracket" aria-hidden="true"></i></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-role="remove" title="{% trans %}Delete{% endtrans %}" aria-label="{% trans %}Delete{% endtrans %}"><i class="fa-solid fa-trash" aria-hidden="true"></i></button>
+                </div>
+            </li>
+        </template>
+    {% endif %}
+</div>

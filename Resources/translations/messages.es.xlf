@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="file.ext">
+    <body>
+      <trans-unit id="38c8f3e" resname="Edition saved">
+        <source>Edition saved</source>
+        <target>Edición guardada</target>
+      </trans-unit>
+      <trans-unit id="053dc08" resname="The edition could not be saved">
+        <source>The edition could not be saved</source>
+        <target>No se ha podido guardar la edición</target>
+      </trans-unit>
+      <trans-unit id="a186936" resname="Discard the unsaved changes?">
+        <source>Discard the unsaved changes?</source>
+        <target>¿Descartar los cambios sin guardar?</target>
+      </trans-unit>
+      <trans-unit id="60f7f99" resname="There are unsaved changes">
+        <source>There are unsaved changes</source>
+        <target>Hay cambios sin guardar</target>
+      </trans-unit>
+      <trans-unit id="e4c38d6" resname="Break">
+        <source>Break</source>
+        <target>Pausa</target>
+      </trans-unit>
+      <trans-unit id="d22db41" resname="Chapter">
+        <source>Chapter</source>
+        <target>Capítulo</target>
+      </trans-unit>
+      <trans-unit id="b3c1f92" resname="There is no playable track to edit.">
+        <source>There is no playable track to edit.</source>
+        <target>No hay ninguna pista reproducible para editar.</target>
+      </trans-unit>
+      <trans-unit id="34a5d93" resname="Default layout">
+        <source>Default layout</source>
+        <target>Disposición por defecto</target>
+      </trans-unit>
+      <trans-unit id="0d27934" resname="Professor - Slide">
+        <source>Professor - Slide</source>
+        <target>Profesor - Diapositiva</target>
+      </trans-unit>
+      <trans-unit id="322cb47" resname="Professor">
+        <source>Professor</source>
+        <target>Profesor</target>
+      </trans-unit>
+      <trans-unit id="6160a53" resname="Slide">
+        <source>Slide</source>
+        <target>Diapositiva</target>
+      </trans-unit>
+      <trans-unit id="3b85133" resname="Back 5 seconds">
+        <source>Back 5 seconds</source>
+        <target>Retroceder 5 segundos</target>
+      </trans-unit>
+      <trans-unit id="15b4faf" resname="Play / pause">
+        <source>Play / pause</source>
+        <target>Reproducir / pausar</target>
+      </trans-unit>
+      <trans-unit id="6332b4a" resname="Forward 5 seconds">
+        <source>Forward 5 seconds</source>
+        <target>Avanzar 5 segundos</target>
+      </trans-unit>
+      <trans-unit id="5095087" resname="Preview the edited video">
+        <source>Preview the edited video</source>
+        <target>Previsualizar el vídeo editado</target>
+      </trans-unit>
+      <trans-unit id="c04acf1" resname="Edited duration">
+        <source>Edited duration</source>
+        <target>Duración editada</target>
+      </trans-unit>
+      <trans-unit id="a9cb01a" resname="Trimming">
+        <source>Trimming</source>
+        <target>Recorte</target>
+      </trans-unit>
+      <trans-unit id="98a9b5c" resname="Breaks">
+        <source>Breaks</source>
+        <target>Pausas</target>
+      </trans-unit>
+      <trans-unit id="dbb7793" resname="Chapters">
+        <source>Chapters</source>
+        <target>Capítulos</target>
+      </trans-unit>
+      <trans-unit id="862ee41" resname="Click the timeline to move the playhead and drag the handles to adjust. Space plays or pauses; the arrows move one second (five with Shift).">
+        <source>Click the timeline to move the playhead and drag the handles to adjust. Space plays or pauses; the arrows move one second (five with Shift).</source>
+        <target>Haz clic en la línea de tiempo para mover el cursor y arrastra las marcas para ajustarlas. La barra espaciadora reproduce o pausa; las flechas avanzan un segundo (cinco con Mayús).</target>
+      </trans-unit>
+      <trans-unit id="d8014da" resname="Use the playhead">
+        <source>Use the playhead</source>
+        <target>Usar la posición del cursor</target>
+      </trans-unit>
+      <trans-unit id="fa11f6b" resname="Keep the whole video">
+        <source>Keep the whole video</source>
+        <target>Mantener el vídeo completo</target>
+      </trans-unit>
+      <trans-unit id="8e45013" resname="Add at the playhead">
+        <source>Add at the playhead</source>
+        <target>Añadir en el cursor</target>
+      </trans-unit>
+      <trans-unit id="6244a47" resname="The breaks are skipped when the video is played.">
+        <source>The breaks are skipped when the video is played.</source>
+        <target>Las pausas se saltan al reproducir el vídeo.</target>
+      </trans-unit>
+      <trans-unit id="9d7c772" resname="The chapters are listed next to the video in the portal.">
+        <source>The chapters are listed next to the video in the portal.</source>
+        <target>Los capítulos se muestran junto al vídeo en el portal.</target>
+      </trans-unit>
+      <trans-unit id="d94b420" resname="Discard">
+        <source>Discard</source>
+        <target>Descartar</target>
+      </trans-unit>
+      <trans-unit id="e43ec38" resname="Go to">
+        <source>Go to</source>
+        <target>Ir a</target>
+      </trans-unit>
+      <trans-unit id="0ba3309" resname="Description (optional)">
+        <source>Description (optional)</source>
+        <target>Descripción (opcional)</target>
+      </trans-unit>
+      <trans-unit id="8446198" resname="Chapter time">
+        <source>Chapter time</source>
+        <target>Tiempo del capítulo</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

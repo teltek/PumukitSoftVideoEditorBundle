@@ -8,10 +8,8 @@ services:
     resource: '../../Controller'
     tags: ['controller.service_arguments']
 
-  Pumukit\SoftVideoEditorBundle\Controller\PaellaRepositoryController:
-    arguments:
-      $opencastClient: '@?pumukit_opencast.client'
-    tags: ['controller.service_arguments']
+  Pumukit\SoftVideoEditorBundle\Services\SoftEditingService:
+    class: Pumukit\SoftVideoEditorBundle\Services\SoftEditingService
 
   Pumukit\SoftVideoEditorBundle\Services\MultimediaObjectDurationService:
     class: Pumukit\SoftVideoEditorBundle\Services\MultimediaObjectDurationService
