@@ -12,93 +12,89 @@ use Pumukit\SchemaBundle\Event\AnnotationsUpdateEvent;
 
 class AnnotationsListenerService
 {
-    private $documentManager;
+    public const SOFT_DURATION_PROPERTY = 'soft-editing-duration';
 
-    public function __construct(DocumentManager $documentManager)
-    {
-        $this->documentManager = $documentManager;
-    }
+    public function __construct(private readonly DocumentManager $documentManager) {}
 
     public function onAnnotationsUpdate(AnnotationsUpdateEvent $event): void
     {
-        $mmobjId = $event->getMultimediaObject();
-        $mmobj = $this->documentManager->getRepository(MultimediaObject::class)->find($mmobjId);
-        // get all annotations for this mmobj
+        $multimediaObject = $this->documentManager->getRepository(MultimediaObject::class)->find($event->getMultimediaObject());
+        if (!$multimediaObject instanceof MultimediaObject) {
+            return;
+        }
+
+        $realDuration = $multimediaObject->getRealDuration();
+        if ($realDuration <= 0) {
+            return;
+        }
+
+        $annotations = $this->annotationsOf($multimediaObject);
+        $start = 0.0;
+        $end = (float) $realDuration;
+        if (isset($annotations['paella/trimming']['trimming'])) {
+            $trimming = $annotations['paella/trimming']['trimming'];
+            $start = max(0.0, (float) $trimming['start']);
+            $end = min((float) $realDuration, (float) $trimming['end']);
+            if ($end <= $start) {
+                $start = 0.0;
+                $end = (float) $realDuration;
+            }
+        }
+
+        $softDuration = $end - $start;
+        foreach ($this->mergedBreaks($annotations['paella/breaks']['breaks'] ?? [], $start, $end) as [$breakStart, $breakEnd]) {
+            $softDuration -= $breakEnd - $breakStart;
+        }
+        $softDuration = (int) round($softDuration);
+
+        if ($softDuration > 0 && $softDuration < $realDuration) {
+            $multimediaObject->setProperty(self::SOFT_DURATION_PROPERTY, $softDuration);
+            $multimediaObject->setDuration($softDuration);
+        } else {
+            $multimediaObject->removeProperty(self::SOFT_DURATION_PROPERTY);
+            $multimediaObject->setDuration($realDuration);
+        }
+        $this->documentManager->flush();
+    }
+
+    private function annotationsOf(MultimediaObject $multimediaObject): array
+    {
         $annotations = $this->documentManager->getRepository(Annotation::class)->createQueryBuilder()
-            ->field('multimediaObject')->equals(new ObjectId($mmobjId))
+            ->field('multimediaObject')->equals(new ObjectId($multimediaObject->getId()))
             ->getQuery()
             ->execute()
         ;
 
-        $initialDuration = $mmobj->getDuration(); // init duration (in case there are no annotations
-        $softDuration = $mmobj->getDuration();
-        $allAnnotations = [];
-        // Prepares the allAnnotations structure we will use
-        foreach ($annotations as $annon) {
-            $allAnnotations[$annon->getType()] = json_decode($annon->getValue(), true, 512, JSON_THROW_ON_ERROR);
+        $values = [];
+        foreach ($annotations as $annotation) {
+            $values[$annotation->getType()] = json_decode((string) $annotation->getValue(), true) ?: [];
         }
-        $trimTimes = null;
-        // If there is a trimming, change the original time by the trimming time
-        if (isset($allAnnotations['paella/trimming']['trimming'])) {
-            $trimTimes = $allAnnotations['paella/trimming']['trimming'];
-            $softDuration = $trimTimes['end'] - $trimTimes['start'];
-        }
-        // If there are any breaks, arrange the breaks array so they don't overlap and decrease the total time by the sum of the breaks.
-        if (isset($allAnnotations['paella/breaks']['breaks'])) {
-            $allBreaks = $allAnnotations['paella/breaks']['breaks'];
-            $allBreaks = $this->getProperBreaks($allBreaks, $trimTimes);
-            foreach ($allBreaks as $break) {
-                $breakTime = $break['e'] - $break['s'];
-                $softDuration -= $breakTime;
-            }
-        }
-        // Add to the mmobj as 'soft-editing-duration'
-        if ($softDuration != $initialDuration) {
-            $mmobj->setProperty('soft-editing-duration', $softDuration);
-            $mmobj->setDuration($softDuration);
-            $this->documentManager->persist($mmobj);
-            $this->documentManager->flush();
-        }
+
+        return $values;
     }
 
-    private function getProperBreaks($breaks, $trim)
+    private function mergedBreaks(array $breaks, float $start, float $end): array
     {
-        if (isset($trim)) {
-            // Exclude breaks that aren't inside the trimming marks
-            $breaks = array_filter($breaks, function ($a) use ($trim) {
-                return $a['s'] <= $trim['end'] && $a['e'] >= $trim['start'];
-            });
-            // Cut breaks that are partially inside the trimming marks
-            $breaks = array_map(function ($a) use ($trim) {
-                if ($a['s'] < $trim['start']) {
-                    $a['s'] = $trim['start'];
-                }
-                if ($a['e'] > $trim['end']) {
-                    $a['e'] = $trim['end'];
-                }
-
-                return $a;
-            }, $breaks);
-        }
-        // Sort breaks by their starting points
-        usort($breaks, static fn ($a, $b) => $a['s'] <=> $b['s']);
-        $allBreaks = [];
-        // Join breaks that overlap
-        foreach ($breaks as $brk) {
-            if (!isset($temp)) {
-                $temp = $brk;
+        $ranges = [];
+        foreach ($breaks as $break) {
+            $breakStart = max($start, (float) ($break['s'] ?? 0));
+            $breakEnd = min($end, (float) ($break['e'] ?? 0));
+            if ($breakEnd > $breakStart) {
+                $ranges[] = [$breakStart, $breakEnd];
             }
-            if ($temp['e'] >= $brk['s']) {
-                $temp['e'] = $brk['e'];
+        }
+        usort($ranges, static fn (array $a, array $b) => $a[0] <=> $b[0]);
+
+        $merged = [];
+        foreach ($ranges as $range) {
+            $last = array_key_last($merged);
+            if (null !== $last && $range[0] <= $merged[$last][1]) {
+                $merged[$last][1] = max($merged[$last][1], $range[1]);
             } else {
-                $allBreaks[] = $temp;
-                $temp = $brk;
+                $merged[] = $range;
             }
         }
-        if (isset($temp)) {
-            $allBreaks[] = $temp;
-        }
 
-        return $allBreaks;
+        return $merged;
     }
 }
