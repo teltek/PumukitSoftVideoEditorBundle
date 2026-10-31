@@ -11,9 +11,6 @@ services:
   Pumukit\SoftVideoEditorBundle\Services\SoftEditingService:
     class: Pumukit\SoftVideoEditorBundle\Services\SoftEditingService
 
-  Pumukit\SoftVideoEditorBundle\Services\MultimediaObjectDurationService:
-    class: Pumukit\SoftVideoEditorBundle\Services\MultimediaObjectDurationService
-
   Pumukit\SoftVideoEditorBundle\Services\AnnotationsListenerService:
     class: Pumukit\SoftVideoEditorBundle\Services\AnnotationsListenerService
     tags:
