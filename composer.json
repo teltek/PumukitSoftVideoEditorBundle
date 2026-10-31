@@ -20,7 +20,7 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.5",
         "pumukit/pumukit": "^6.0"
     },
     "autoload": {

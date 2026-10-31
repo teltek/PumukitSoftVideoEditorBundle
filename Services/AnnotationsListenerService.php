@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pumukit\SoftVideoEditorBundle\Services;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -79,9 +81,7 @@ class AnnotationsListenerService
             }, $breaks);
         }
         // Sort breaks by their starting points
-        usort($breaks, function ($a, $b) {
-            return $a['s'] > $b['s'];
-        });
+        usort($breaks, static fn ($a, $b) => $a['s'] <=> $b['s']);
         $allBreaks = [];
         // Join breaks that overlap
         foreach ($breaks as $brk) {

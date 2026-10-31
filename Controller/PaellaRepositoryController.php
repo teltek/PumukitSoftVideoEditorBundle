@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pumukit\SoftVideoEditorBundle\Controller;
 
 use Pumukit\BasePlayerBundle\Services\TrackUrlService;

@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pumukit\SoftVideoEditorBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Loader;
-use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 
 class PumukitSoftVideoEditorExtension extends Extension
 {

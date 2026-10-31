@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pumukit\SoftVideoEditorBundle\Services;
 
 use Pumukit\SchemaBundle\Document\MultimediaObject;
@@ -9,7 +11,7 @@ class MultimediaObjectDurationService
     public function getMmobjDuration(MultimediaObject $multimediaObject): ?int
     {
         if ($duration = $multimediaObject->getProperty('soft-editing-duration')) {
-            return $duration;
+            return (int) round((float) $duration);
         }
 
         if (0 === $multimediaObject->getDuration() && $multimediaObject->getProperty('externalplayer')) {
