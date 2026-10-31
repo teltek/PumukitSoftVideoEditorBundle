@@ -88,12 +88,23 @@ export function toPayload(edition) {
     };
 }
 
+export function startIsTrimmed(edition) {
+    return round(edition.trimming.start) > 0;
+}
+
 export function validate(edition) {
-    if (edition.trimming.end <= edition.trimming.start) {
+    const { start, end } = edition.trimming;
+    if (end <= start) {
         return 'trimming';
     }
     if (edition.breaks.some((item) => item.e <= item.s)) {
         return 'breaks';
+    }
+    if (edition.breaks.some((item) => Math.min(item.e, end) <= Math.max(item.s, start))) {
+        return 'breakOutside';
+    }
+    if (edition.breaks.length > 0 && startIsTrimmed(edition)) {
+        return 'trimmedStartWithBreaks';
     }
 
     return null;

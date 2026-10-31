@@ -90,7 +90,15 @@ class SoftEditingService
             if ($breakEnd <= $breakStart) {
                 throw new \InvalidArgumentException('The end of a break must be after its start');
             }
+            $breakStart = max($breakStart, $start);
+            $breakEnd = min($breakEnd, $end);
+            if ($breakEnd <= $breakStart) {
+                throw new \InvalidArgumentException('A break must be inside the trimming');
+            }
             $breaks[] = ['s' => $breakStart, 'e' => $breakEnd, 'text' => $this->text($break['text'] ?? '')];
+        }
+        if ($breaks && $start > 0) {
+            throw new \InvalidArgumentException('Breaks cannot be combined with a trimmed start');
         }
         usort($breaks, static fn (array $a, array $b) => $a['s'] <=> $b['s']);
 

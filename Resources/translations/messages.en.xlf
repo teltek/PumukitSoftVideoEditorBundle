@@ -118,6 +118,22 @@
         <source>Chapter time</source>
         <target>Chapter time</target>
       </trans-unit>
+      <trans-unit id="3aad0ce" resname="The end of the trimming must be after its start.">
+        <source>The end of the trimming must be after its start.</source>
+        <target>The end of the trimming must be after its start.</target>
+      </trans-unit>
+      <trans-unit id="8f27062" resname="The end of a break must be after its start.">
+        <source>The end of a break must be after its start.</source>
+        <target>The end of a break must be after its start.</target>
+      </trans-unit>
+      <trans-unit id="2f9137e" resname="Every break must be inside the trimming.">
+        <source>Every break must be inside the trimming.</source>
+        <target>Every break must be inside the trimming.</target>
+      </trans-unit>
+      <trans-unit id="cb63828" resname="Breaks cannot be combined with a trimmed start: keep the start at 0 and add a break from the beginning instead.">
+        <source>Breaks cannot be combined with a trimmed start: keep the start at 0 and add a break from the beginning instead.</source>
+        <target>Breaks cannot be combined with a trimmed start: keep the start at 0 and add a break from the beginning instead.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

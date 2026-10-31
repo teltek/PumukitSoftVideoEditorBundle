@@ -29,8 +29,12 @@ The edition is stored as the annotations that the player and the portal of PuMuK
 | `paella/breaks`   | `{"breaks": [{"id": 1, "s": 20, "e": 30, "text": "..."}]}` | Paella player (`breaksPlugin`)            |
 | `paella/marks`    | `{"marks": [{"id": 1, "s": 45, "name": "..."}]}`           | Portal chapter list (`ChapterMarkService`) |
 
-Times are in seconds. After saving, the duration of the multimedia object becomes the edited one and the
-`soft-editing-duration` property is set; removing the edition restores the duration of the master track.
+Times are in seconds. The editor only saves breaks inside the trimming, and no breaks when the start is
+trimmed: the breaks plugin of the player does not take the trimming into account (it skips the wrong part and
+can freeze the browser), so for now cut the beginning with a break from 0 instead of trimming the start.
+
+After saving, the duration of the multimedia object becomes the edited one and the `soft-editing-duration`
+property is set; removing the edition restores the duration of the master track.
 
 Access
 ------

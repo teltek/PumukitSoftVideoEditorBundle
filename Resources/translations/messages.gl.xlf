@@ -118,6 +118,22 @@
         <source>Chapter time</source>
         <target>Tempo do capítulo</target>
       </trans-unit>
+      <trans-unit id="3aad0ce" resname="The end of the trimming must be after its start.">
+        <source>The end of the trimming must be after its start.</source>
+        <target>O fin do recorte debe ser posterior ao seu inicio.</target>
+      </trans-unit>
+      <trans-unit id="8f27062" resname="The end of a break must be after its start.">
+        <source>The end of a break must be after its start.</source>
+        <target>O fin dunha pausa debe ser posterior ao seu inicio.</target>
+      </trans-unit>
+      <trans-unit id="2f9137e" resname="Every break must be inside the trimming.">
+        <source>Every break must be inside the trimming.</source>
+        <target>Todas as pausas deben estar dentro do recorte.</target>
+      </trans-unit>
+      <trans-unit id="cb63828" resname="Breaks cannot be combined with a trimmed start: keep the start at 0 and add a break from the beginning instead.">
+        <source>Breaks cannot be combined with a trimmed start: keep the start at 0 and add a break from the beginning instead.</source>
+        <target>As pausas non se poden combinar cun recorte do inicio: deixa o inicio en 0 e engade unha pausa desde o principio.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

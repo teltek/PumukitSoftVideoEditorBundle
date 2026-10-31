@@ -78,12 +78,12 @@ class EditorControllerTest extends PumukitTestCase
     {
         $this->client->loginUser($this->user('admin', PermissionProfile::SCOPE_GLOBAL), 'pumukit');
 
-        $this->post(['trimming' => ['start' => 10, 'end' => 90], 'breaks' => [['s' => 20, 'e' => 30, 'text' => '']], 'marks' => []]);
+        $this->post(['trimming' => ['start' => 0, 'end' => 90], 'breaks' => [['s' => 20, 'e' => 30, 'text' => '']], 'marks' => []]);
 
         $this->assertResponseIsSuccessful();
         $response = json_decode($this->client->getResponse()->getContent(), true);
-        $this->assertSame(70, $response['duration']);
-        $this->assertSame(['start' => 10, 'end' => 90], $response['edition']['trimming']);
+        $this->assertSame(80, $response['duration']);
+        $this->assertSame(['start' => 0, 'end' => 90], $response['edition']['trimming']);
     }
 
     public function testInvalidEditionIsABadRequest(): void
@@ -91,7 +91,9 @@ class EditorControllerTest extends PumukitTestCase
         $this->client->loginUser($this->user('admin', PermissionProfile::SCOPE_GLOBAL), 'pumukit');
 
         $this->post(['trimming' => ['start' => 50, 'end' => 10]]);
+        $this->assertResponseStatusCodeSame(400);
 
+        $this->post(['trimming' => ['start' => 10, 'end' => 90], 'breaks' => [['s' => 20, 'e' => 30]]]);
         $this->assertResponseStatusCodeSame(400);
     }
 

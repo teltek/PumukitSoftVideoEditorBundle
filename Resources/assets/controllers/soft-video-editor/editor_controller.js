@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import { clamp, createEdition, editedDuration, formatTime, mergedBreaks, parseTime, playableTime, round, toPayload, validate } from '../../edition.js';
+import { clamp, createEdition, editedDuration, formatTime, mergedBreaks, parseTime, playableTime, round, startIsTrimmed, toPayload, validate } from '../../edition.js';
 
 const BREAK_LENGTH = 10;
 const TICK_STEPS = [1, 5, 10, 15, 30, 60, 120, 300, 600, 900, 1800, 3600];
@@ -10,7 +10,7 @@ export default class extends Controller {
         'video', 'secondary', 'playIcon', 'currentTime', 'totalTime', 'preview', 'editedTime',
         'timeline', 'ruler', 'cutStart', 'cutEnd', 'trimStartHandle', 'trimEndHandle', 'breaksLane', 'marksLane', 'playhead',
         'trimStart', 'trimEnd', 'breaksList', 'breaksEmpty', 'marksList', 'marksEmpty',
-        'dirty', 'discardButton', 'saveButton', 'breakTemplate', 'markTemplate',
+        'dirty', 'invalid', 'discardButton', 'saveButton', 'addBreakButton', 'breaksBlocked', 'breakTemplate', 'markTemplate',
     ];
 
     static values = { saveUrl: String, layoutUrl: String, duration: Number, edition: Object, messages: Object };
@@ -256,8 +256,12 @@ export default class extends Controller {
     }
 
     addBreak() {
-        const start = round(clamp(this.currentTime, 0, Math.max(0, this.duration - 0.1)));
-        this.edition.breaks.push({ s: start, e: round(Math.min(start + BREAK_LENGTH, this.duration)), text: '' });
+        const { start: trimStart, end: trimEnd } = this.edition.trimming;
+        if (startIsTrimmed(this.edition)) {
+            return;
+        }
+        const start = round(clamp(this.currentTime, trimStart, Math.max(trimStart, trimEnd - 0.1)));
+        this.edition.breaks.push({ s: start, e: round(Math.min(start + BREAK_LENGTH, trimEnd)), text: '' });
         this.sortItems();
         this.renderLists();
         this.render();
@@ -334,8 +338,9 @@ export default class extends Controller {
     }
 
     async save() {
-        if (null !== validate(this.edition)) {
-            window.no_success?.(this.messagesValue.saveError);
+        const error = validate(this.edition);
+        if (null !== error) {
+            window.no_success?.(this.messagesValue[error]);
 
             return;
         }
@@ -408,9 +413,15 @@ export default class extends Controller {
         this.updateClock();
 
         const dirty = this.isDirty();
+        const error = validate(this.edition);
+        const trimmedStart = startIsTrimmed(this.edition);
         this.dirtyTarget.classList.toggle('d-none', !dirty);
+        this.invalidTarget.classList.toggle('d-none', null === error);
+        this.invalidTarget.lastElementChild.textContent = error ? this.messagesValue[error] : '';
+        this.addBreakButtonTarget.disabled = trimmedStart;
+        this.breaksBlockedTarget.classList.toggle('d-none', !trimmedStart);
         this.discardButtonTarget.disabled = !dirty;
-        this.saveButtonTarget.disabled = !dirty || null !== validate(this.edition);
+        this.saveButtonTarget.disabled = !dirty || null !== error;
     }
 
     renderLanes() {

@@ -14,6 +14,10 @@
          unsaved: 'There are unsaved changes'|trans,
          breakText: 'Break'|trans,
          chapterText: 'Chapter'|trans,
+         trimming: 'The end of the trimming must be after its start.'|trans,
+         breaks: 'The end of a break must be after its start.'|trans,
+         breakOutside: 'Every break must be inside the trimming.'|trans,
+         trimmedStartWithBreaks: 'Breaks cannot be combined with a trimmed start: keep the start at 0 and add a break from the beginning instead.'|trans,
      }|json_encode }}"
      data-action="keydown->soft-video-editor--editor#shortcut">
     {% if sources is empty %}
@@ -102,8 +106,9 @@
                 <div class="card h-100">
                     <div class="card-header d-flex align-items-center">
                         <span><i class="fa-solid fa-pause text-warning" aria-hidden="true"></i> {% trans %}Breaks{% endtrans %}</span>
-                        <button type="button" class="btn btn-sm btn-pumukit ms-auto" data-action="soft-video-editor--editor#addBreak"><i class="fa-solid fa-plus" aria-hidden="true"></i> {% trans %}Add at the playhead{% endtrans %}</button>
+                        <button type="button" class="btn btn-sm btn-pumukit ms-auto" data-action="soft-video-editor--editor#addBreak" data-soft-video-editor--editor-target="addBreakButton"><i class="fa-solid fa-plus" aria-hidden="true"></i> {% trans %}Add at the playhead{% endtrans %}</button>
                     </div>
+                    <div class="card-body small text-warning-emphasis bg-warning-subtle d-none" data-soft-video-editor--editor-target="breaksBlocked">{% trans %}Breaks cannot be combined with a trimmed start: keep the start at 0 and add a break from the beginning instead.{% endtrans %}</div>
                     <ul class="list-group list-group-flush" data-kind="breaks" data-soft-video-editor--editor-target="breaksList" data-action="click->soft-video-editor--editor#listClick change->soft-video-editor--editor#listChange input->soft-video-editor--editor#listInput"></ul>
                     <div class="card-body small text-body-secondary" data-soft-video-editor--editor-target="breaksEmpty">{% trans %}The breaks are skipped when the video is played.{% endtrans %}</div>
                 </div>
@@ -121,6 +126,7 @@
         </div>
 
         <div class="d-flex align-items-center gap-2 mt-3">
+            <span class="text-danger small d-none" data-soft-video-editor--editor-target="invalid"><i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i> <span></span></span>
             <span class="text-warning small d-none" data-soft-video-editor--editor-target="dirty"><i class="fa-solid fa-circle-exclamation" aria-hidden="true"></i> {% trans %}There are unsaved changes{% endtrans %}</span>
             <button type="button" class="btn btn-secondary ms-auto" data-action="soft-video-editor--editor#discard" data-soft-video-editor--editor-target="discardButton" disabled>{% trans %}Discard{% endtrans %}</button>
             <button type="button" class="btn btn-pumukit" data-action="soft-video-editor--editor#save" data-soft-video-editor--editor-target="saveButton" disabled>{% trans %}Save{% endtrans %}</button>

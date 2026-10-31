@@ -58,19 +58,50 @@ class SoftEditingServiceTest extends PumukitTestCase
     public function testSaveStoresTheFormatsThePlayerAndThePortalRead(): void
     {
         $this->service->save($this->multimediaObject, [
-            'trimming' => ['start' => 5, 'end' => 95],
+            'trimming' => ['start' => 0, 'end' => 95],
             'breaks' => [['s' => 40, 'e' => 50, 'text' => 'Coffee']],
             'marks' => [['s' => 60, 'name' => 'Second part'], ['s' => 10, 'name' => 'Intro']],
         ], 'user');
 
-        $this->assertSame(['trimming' => ['start' => 5, 'end' => 95]], $this->stored(SoftEditingService::TRIMMING));
+        $this->assertSame(['trimming' => ['start' => 0, 'end' => 95]], $this->stored(SoftEditingService::TRIMMING));
         $this->assertSame(['breaks' => [['id' => 1, 's' => 40, 'e' => 50, 'text' => 'Coffee', 'name' => 'Coffee', 'content' => 'Coffee']]], $this->stored(SoftEditingService::BREAKS));
         $this->assertSame(['marks' => [
             ['id' => 1, 's' => 10, 'e' => 10, 'name' => 'Intro', 'content' => 'Intro'],
             ['id' => 2, 's' => 60, 'e' => 60, 'name' => 'Second part', 'content' => 'Second part'],
         ]], $this->stored(SoftEditingService::MARKS));
         $this->dm->refresh($this->multimediaObject);
-        $this->assertSame(80, $this->multimediaObject->getDuration());
+        $this->assertSame(85, $this->multimediaObject->getDuration());
+    }
+
+    public function testBreaksAreClippedToTheTrimming(): void
+    {
+        $edition = $this->service->save($this->multimediaObject, [
+            'trimming' => ['start' => 0, 'end' => 60],
+            'breaks' => [['s' => 50, 'e' => 80, 'text' => '']],
+        ], 'user');
+
+        $this->assertSame([['s' => 50.0, 'e' => 60.0, 'text' => '']], $edition['breaks']);
+    }
+
+    public function testABreakOutsideTheTrimmingIsRejected(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->service->save($this->multimediaObject, ['trimming' => ['start' => 0, 'end' => 60], 'breaks' => [['s' => 70, 'e' => 80]]], 'user');
+    }
+
+    public function testBreaksCannotBeCombinedWithATrimmedStart(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        $this->service->save($this->multimediaObject, ['trimming' => ['start' => 10, 'end' => 90], 'breaks' => [['s' => 40, 'e' => 50]]], 'user');
+    }
+
+    public function testATrimmedStartWithoutBreaksIsAccepted(): void
+    {
+        $edition = $this->service->save($this->multimediaObject, ['trimming' => ['start' => 10, 'end' => 90], 'marks' => [['s' => 20, 'name' => 'Intro']]], 'user');
+
+        $this->assertSame(['start' => 10.0, 'end' => 90.0], $edition['trimming']);
     }
 
     public function testSaveClampsTimesStripsTagsAndReplacesDuplicates(): void
