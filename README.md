@@ -68,3 +68,13 @@ Then clear the cache:
 ```bash
 php bin/console cache:clear
 ```
+
+## Configuration
+
+```yaml
+pumukit_soft_video_editor:
+    enable: true
+```
+
+With `enable: false` the bundle stays installed, but its routes are not loaded, so the **Edit** tab of the videos is
+not shown, and the Paella annotations no longer change the duration of the videos. Clear the cache after changing it.

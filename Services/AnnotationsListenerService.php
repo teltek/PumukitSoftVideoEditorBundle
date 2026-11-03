@@ -14,10 +14,17 @@ class AnnotationsListenerService
 {
     public const SOFT_DURATION_PROPERTY = 'soft-editing-duration';
 
-    public function __construct(private readonly DocumentManager $documentManager) {}
+    public function __construct(
+        private readonly DocumentManager $documentManager,
+        private readonly bool $enabled = true,
+    ) {}
 
     public function onAnnotationsUpdate(AnnotationsUpdateEvent $event): void
     {
+        if (!$this->enabled) {
+            return;
+        }
+
         $multimediaObject = $this->documentManager->getRepository(MultimediaObject::class)->find($event->getMultimediaObject());
         if (!$multimediaObject instanceof MultimediaObject) {
             return;

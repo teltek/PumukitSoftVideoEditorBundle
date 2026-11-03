@@ -20,6 +20,9 @@ class PumukitSoftVideoEditorExtension extends Extension implements PrependExtens
 
     public function load(array $configs, ContainerBuilder $container): void
     {
+        $config = $this->processConfiguration(new Configuration(), $configs);
+        $container->setParameter('pumukit_soft_video_editor.enable', $config['enable']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('pumukit_soft_video_editor.yaml');
     }

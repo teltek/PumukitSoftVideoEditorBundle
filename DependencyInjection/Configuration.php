@@ -1,0 +1,27 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Pumukit\SoftVideoEditorBundle\DependencyInjection;
+
+use Symfony\Component\Config\Definition\Builder\TreeBuilder;
+use Symfony\Component\Config\Definition\ConfigurationInterface;
+
+class Configuration implements ConfigurationInterface
+{
+    public function getConfigTreeBuilder(): TreeBuilder
+    {
+        $treeBuilder = new TreeBuilder('pumukit_soft_video_editor');
+
+        $treeBuilder->getRootNode()
+            ->children()
+            ->booleanNode('enable')
+            ->defaultTrue()
+            ->info('If false, the editor routes are not loaded, so the Edit tab is not shown, and the annotations do not change the duration')
+            ->end()
+            ->end()
+        ;
+
+        return $treeBuilder;
+    }
+}

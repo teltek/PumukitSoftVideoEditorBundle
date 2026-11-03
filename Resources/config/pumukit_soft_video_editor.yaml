@@ -3,6 +3,8 @@ services:
     autowire:      true
     autoconfigure: true
     public:        true
+    bind:
+      $enabled: '%pumukit_soft_video_editor.enable%'
 
   Pumukit\SoftVideoEditorBundle\Controller\:
     resource: '../../Controller'
@@ -15,3 +17,8 @@ services:
     class: Pumukit\SoftVideoEditorBundle\Services\AnnotationsListenerService
     tags:
       - { name: "kernel.event_listener", event: "annotations.update", method: "onAnnotationsUpdate" }
+
+  Pumukit\SoftVideoEditorBundle\Routing\RouteLoader:
+    arguments:
+      $env: '%kernel.environment%'
+    tags: ['routing.loader']
