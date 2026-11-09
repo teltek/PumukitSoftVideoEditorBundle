@@ -17,7 +17,7 @@ class Configuration implements ConfigurationInterface
             ->children()
             ->booleanNode('enable')
             ->defaultTrue()
-            ->info('If false, the editor routes are not loaded, so the Edit tab is not shown, and the annotations do not change the duration')
+            ->info('If false, the editor routes give 404, so the Edit tab is not shown, and nothing else of the bundle is loaded, so the annotations do not change the duration')
             ->end()
             ->end()
         ;

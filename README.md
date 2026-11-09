@@ -76,5 +76,6 @@ pumukit_soft_video_editor:
     enable: true
 ```
 
-With `enable: false` the bundle stays installed, but its routes are not loaded, so the **Edit** tab of the videos is
-not shown, and the Paella annotations no longer change the duration of the videos. Clear the cache after changing it.
+With `enable: false` the bundle stays installed, but its routes give 404, so the **Edit** tab of the videos is not
+shown, and nothing else of the bundle is loaded, so the Paella annotations no longer change the duration of the videos.
+Clear the cache after changing it.

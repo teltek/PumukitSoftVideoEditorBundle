@@ -100,16 +100,6 @@ class AnnotationsListenerServiceTest extends PumukitTestCase
         $this->assertSame(61, $this->multimediaObject->getDuration());
     }
 
-    public function testTheDisabledBundleKeepsTheDuration(): void
-    {
-        $this->annotate('paella/trimming', ['trimming' => ['start' => 10, 'end' => 50]]);
-        $this->listener = new AnnotationsListenerService($this->dm, false);
-
-        $this->update();
-
-        $this->assertSame(100, $this->multimediaObject->getDuration());
-    }
-
     private function annotate(string $type, array $value): Annotation
     {
         $annotation = new Annotation();
